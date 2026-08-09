@@ -26,6 +26,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return user
+    
+    def validate_email(self, value):
+        return value.strip().lower()
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -53,23 +56,23 @@ class ChangePasswordSerializer(serializers.Serializer):
     
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
+    email = serializers.EmailField()
     password = serializers.CharField(
         write_only = True,    
     )
     
     def validate(self, attrs):
-        username=attrs.get("username"),
+        email=attrs.get("email"),
         password=attrs.get("password"),
 
         user = authenticate(
-            username=username,
+            email=email,
             password=password,
         )
         
         if user is None:
             raise serializers.ValidationError(
-                "Invalid username or password"    
+                "Invalid email or password"    
             )
         if not user.is_active:
             raise serializers.ValidationError(

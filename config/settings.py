@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import timedelta
+from telnetlib import AUTHENTICATION
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -58,6 +59,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+
+AUTHENTICATION_BACKENDS = [
+    "apps.users.backends.EmailBackend",    
+]
 
 
 
