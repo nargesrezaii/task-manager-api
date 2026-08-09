@@ -83,3 +83,18 @@ class LoginSerializer(serializers.Serializer):
             "refresh": str(refresh),
             "access": str(refresh.access_token),                
         }
+    
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+    
+    def validate_refresh(self, value):
+        try:
+            token = RefreshToken(value)
+            token.blacklist()
+        except Exception:
+            raise serializers.ValidationError(
+                "Invalid refresh token."
+            )
+        
+        return value

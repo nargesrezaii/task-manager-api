@@ -6,6 +6,7 @@ from apps.users.auth.views import (
     LoginView,
     UserRegistrationView,
     MeView,
+    LogoutView,
 )
 
 
@@ -34,5 +35,10 @@ urlpatterns = [
         "refresh/",
         TokenRefreshView.as_view(),
         name="refresh",
+    ),
+    path(
+        'logout/',
+        LogoutView.as_view(),
+        name='logout'
     ),
 ]
