@@ -1,10 +1,17 @@
 from django.contrib.auth import update_session_auth_hash
-from rest_framework import generics, serializers
+from rest_framework import generics, serializers, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
 
-from apps.users.auth.serializers import ChangePasswordSerializer
+from apps.users.auth.serializers import ChangePasswordSerializer, LoginSerializer, UserRegistrationSerializer
 
+
+class UserRegistrationView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]
+    
 
 class ChangePasswordView(generics.GenericAPIView):
     serializer_class = ChangePasswordSerializer
@@ -31,3 +38,33 @@ class ChangePasswordView(generics.GenericAPIView):
         return Response(
             {"detail": "Password changed successfully."}    
         )
+    
+
+class LoginView(APIView):
+    permission_classes = []
+    
+    def post(self, request):
+        serializer = LoginSerializer(
+            data=request.data
+        )
+        
+        serializer.is_valid(raise_exception=True)
+        
+        return Response(
+            serializer.validated_data,
+            status=status.HTTP_200_OK,
+        )
+    
+
+class MeView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        return Response(
+            {
+                "id": request.user.id,
+                "username": request.user.username,
+                "email": request.user.email,
+            }
+        )
+
