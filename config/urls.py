@@ -9,6 +9,8 @@ urlpatterns = [
     path('api/auth/', include('apps.users.auth.urls')),
     path('api/users/',include('apps.users.urls')),
     path('api/',include('apps.tasks.urls')),
+    
+    path('', include('apps.dashboard.urls')),
 ]
 
 if settings.DEBUG:

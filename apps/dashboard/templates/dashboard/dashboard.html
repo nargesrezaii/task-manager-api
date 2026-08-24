@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Task Manager</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Task Manager</h1>
+
+        <p>
+            Welcome, {{ request.user.email }}
+        </p>
+
+        <a href="{% url 'logout' %}">Logout</a>
+    </header>
+
+    <hr>
+
+    <section>
+        <h2>Overview</h2>
+
+        <p>Total tasks: {{ total_tasks }}</p>
+
+        <p>To Do: {{ todo }}</p>
+
+        <p>In Progress: {{ in_progress }}</p>
+
+        <p>Completed: {{ completed }}</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Recent Tasks</h2>
+
+        {% if tasks %}
+
+        {% for task in tasks %}
+
+        <article>
+            <h3>{{ task.title }}</h3>
+
+            <p>Status: {{ task.get_status_display }}</p>
+
+            <p>Priority: {{ task.get_priority_display }}</p>
+
+            {% if task.due_date %}
+            <p>Due: {{ task.due_date }}</p>
+            {% endif %}
+        </article>
+
+        <hr>
+
+        {% endfor %}
+
+        {% else %}
+
+        <p>You don't have any tasks yet.</p>
+
+        {% endif %}
+
+    </section>
+
+</body>
+</html>
