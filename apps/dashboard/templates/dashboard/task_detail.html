@@ -1,0 +1,30 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    {{ task.title }} | Task Manager
+{% endblock %}
+
+{% block content %}
+    
+    <h1>{{ task.title }}</h1>
+
+    {% if task.description %}
+        <p>{{ task.description }}</p>
+    {% endif %}
+
+    <p>Status: {{ task.get_status_display }}</p>
+    <p>Priority: {{ task.get_priority_display }}</p>
+
+    {% if task.due_date %}
+        <p>Due: {{ task.due_date }}</p>
+    {% endif %}
+
+    <p>Created: {{ task.created_at }}</p>
+
+    <p>Last updated: {{ task.updated_at }}</p>
+
+    <a href="{% url 'dashboard' %}">
+        Back to dashboard
+    </a>
+
+{% endblock %}

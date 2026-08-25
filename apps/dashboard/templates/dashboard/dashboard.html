@@ -23,7 +23,12 @@
         {% if tasks %}
             {% for task in tasks %}
                 <article>
-                    <h3>{{ task.title }}</h3>
+                    <h3>
+                        <a href="{% url 'task-detail' task.pk %}">
+                            {{ task.title }}
+                        </a>
+                    </h3>
+
                     <p>
                         Status:
                         {{ task.get_status_display }}
