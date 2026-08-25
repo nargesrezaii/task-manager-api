@@ -1,3 +1,4 @@
+import stat
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -61,6 +62,37 @@ def dashboard(request):
     return render(
         request,
         "dashboard/dashboard.html",
+        context,
+    )
+
+
+@login_required
+def create_task(request):
+    if request.method=="POST":
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        status = request.POST.get("status")
+        priority = request.POST.get("priority")
+        due_date = request.POST.get("due_date")
+
+        Task.objects.create(
+            owner = request.user,
+            title=title,
+            description=description,
+            status=status,
+            priority=priority,
+            due_date=due_date,
+        )
+        return redirect("dashboard")
+    
+    context = {
+        "statuses": Task.Status.choices,
+        "priorities": Task.Priority.choices,
+    }
+    
+    return render(
+        request,
+        "dashboard/create_task.html",
         context,
     )
 
