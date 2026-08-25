@@ -110,3 +110,28 @@ def task_detail(request, pk):
         "dashboard/task_detail.html",  
         {"task": task}
     )
+
+
+@login_required
+def edit_task(request, pk):
+    task = get_object_or_404(
+        Task,
+        pk=pk,
+        owner = request.user,
+    )
+    
+    if request.method=="POST":
+        form = TaskForm(request.POST, instance=task)
+        
+        if form.is_valid():
+            form.save()
+            return redirect("task-detail", pk=task.pk)
+    else:
+        form = TaskForm(instance=task)
+        
+    return render(
+        request,
+        "dashboard/edit_task.html",
+        {"form": form,"task": task},
+    )
+            

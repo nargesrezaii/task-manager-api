@@ -23,6 +23,9 @@
 
     <p>Last updated: {{ task.updated_at }}</p>
 
+    <a href="{% url 'edit-task' task.pk %}">
+        Edit task
+    </a>
     <a href="{% url 'dashboard' %}">
         Back to dashboard
     </a>

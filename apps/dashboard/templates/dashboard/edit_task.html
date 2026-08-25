@@ -1,0 +1,21 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Edit {{ task.title }} | Task Manager
+{% endblock %}
+
+{% block content %}
+
+    <h1>Edit Task</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <a href="{% url 'task-detail' task.pk %}">
+        Cancel
+    </a>
+
+{% endblock %}

@@ -5,6 +5,7 @@ from apps.dashboard.views import (
     login_view,
     logout_view,
     create_task,
+    edit_task,
     task_detail,
 )
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('logout/', logout_view, name="logout"),
     path('tasks/create/', create_task, name="create-task"),
     path('tasks/<int:pk>/', task_detail, name="task-detail"),
+    path('tasks/<int:pk>/edit/', edit_task, name="edit-task"),
 ]
