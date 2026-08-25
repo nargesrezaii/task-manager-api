@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from apps.dashboard.forms import TaskForm
+from apps.dashboard.forms import LoginForm, TaskForm
 from apps.tasks.models import Task
 
 
@@ -12,24 +12,34 @@ def login_view(request):
         return redirect("dashboard")
     
     if request.method=="POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
+        form = LoginForm(request.POST)
         
-        user = authenticate(
-            request,
-            email=email,
-            password=password,
-        )
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            
+            user = authenticate(
+                request,
+                email=email,
+                password=password,
+            )
 
-        if user is not None:
-            login(request, user)
-            return redirect("dashboard")
-        
-        return render(
-            request,
-            "dashboard/login.html",
-            {"error": "Invalid email or password."},
-        )
+            if user is not None:
+                login(request, user)
+                return redirect("dashboard")
+            
+            form.add_error(
+                None,
+                "Invalid email or password.",
+            )
+    else:
+        form = LoginForm()
+
+    return render(
+        request,
+        "dashboard/login.html",
+        {"form": form},
+    )
     
     return render(request, "dashboard/login.html")
 
