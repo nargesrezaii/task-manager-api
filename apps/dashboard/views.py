@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from apps.dashboard.forms import TaskForm
 from apps.tasks.models import Task
 
 
@@ -69,30 +70,20 @@ def dashboard(request):
 @login_required
 def create_task(request):
     if request.method=="POST":
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        status = request.POST.get("status")
-        priority = request.POST.get("priority")
-        due_date = request.POST.get("due_date")
+        form = TaskForm(request.POST)
 
-        Task.objects.create(
-            owner = request.user,
-            title=title,
-            description=description,
-            status=status,
-            priority=priority,
-            due_date=due_date,
-        )
-        return redirect("dashboard")
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.owner = request.user
+            task.save()
+            return redirect("dashboard")
     
-    context = {
-        "statuses": Task.Status.choices,
-        "priorities": Task.Priority.choices,
-    }
+    else:
+        form = TaskForm()
     
     return render(
         request,
         "dashboard/create_task.html",
-        context,
+        {"form": form},
     )
 

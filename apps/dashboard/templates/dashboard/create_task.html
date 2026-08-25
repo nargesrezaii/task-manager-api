@@ -11,59 +11,8 @@
 
     <form method="post">
         {% csrf_token %}
-
-        <div>
-            <label for="title">Title</label>
-
-            <input type="text"
-                   id="title"
-                   name="title"
-                   maxlength="200"
-                   required>
-        </div>
-
-        <div>
-            <label for="description">Description</label>
-
-            <textarea id="description"
-                      name="description"></textarea>
-        </div>
-
-        <div>
-            <label for="status">Status</label>
-
-            <select id="status" name="status">
-                {% for value, label in statuses %}
-                <option value="{{ value }}">
-                    {{ label }}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div>
-            <label for="priority">Priority</label>
-
-            <select id="priority" name="priority">
-                {% for value, label in priorities %}
-                <option value="{{ value }}">
-                    {{ label }}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div>
-            <label for="due_date">Due date</label>
-
-            <input type="datetime-local"
-                   id="due_date"
-                   name="due_date">
-        </div>
-
-        <button type="submit">
-            Create Task
-        </button>
+        {{ form.as_p}}
+        <button type="submit">Create Task</button>
     </form>
 
     <p>
