@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Task | Task Manager</title>
-</head>
+{% extends "dashboard/base.html" %}
 
-<body>
+{% block title %}
+    Create Task | Task Manager
+{% endblock %}
 
+{% block content %}
     <h1>Create Task</h1>
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p}}
+        {{ form.as_p }}
         <button type="submit">Create Task</button>
     </form>
 
-    <p>
-        <a href="{% url 'dashboard' %}">
-            Back to dashboard
-        </a>
-    </p>
-
-</body>
-</html>
+{% endblock %}
