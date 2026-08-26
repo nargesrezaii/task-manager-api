@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from apps.dashboard.forms import LoginForm, TaskForm
 from apps.tasks.models import Task
@@ -85,6 +86,10 @@ def create_task(request):
             task = form.save(commit=False)
             task.owner = request.user
             task.save()
+            messages.success(
+                request,
+                "Task created successfully.",
+            )
             return redirect("dashboard")
     
     else:
@@ -125,7 +130,16 @@ def edit_task(request, pk):
         
         if form.is_valid():
             form.save()
-            return redirect("task-detail", pk=task.pk)
+            
+            messages.success(
+                request,
+                "Task updated successfully.",
+            )
+            
+            return redirect(
+                "task-detail",
+                pk=task.pk
+            )
     else:
         form = TaskForm(instance=task)
         
@@ -146,6 +160,12 @@ def delete_task(request, pk):
     
     if request.method=="POST":
         task.delete()
+
+        messages.success(
+            request,
+            "Task deleted successfully.",
+        )
+        
         return redirect("dashboard")
     
     return render(
