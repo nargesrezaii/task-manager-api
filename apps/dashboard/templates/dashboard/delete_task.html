@@ -1,0 +1,23 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Delete {{ task.title }} | Task Manager
+{% endblock %}
+
+{% block content %}
+
+    <h1>Delete Task</h1>
+    <p>
+        Are you sure you want to delete
+        <strong>{{ task.title }}</strong>?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'task-detail' task.pk %}">
+            Cancel
+        </a>
+    </form>
+
+{% endblock %}

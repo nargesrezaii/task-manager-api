@@ -135,3 +135,21 @@ def edit_task(request, pk):
         {"form": form,"task": task},
     )
             
+
+@login_required
+def delete_task(request, pk):
+    task = get_object_or_404(
+        Task,
+        pk=pk,
+        owner = request.user,
+    )
+    
+    if request.method=="POST":
+        task.delete()
+        return redirect("dashboard")
+    
+    return render(
+        request,
+        "dashboard/delete_task.html",
+        {"task": task},
+    )
