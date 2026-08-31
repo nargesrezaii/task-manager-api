@@ -2,9 +2,13 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 
-from apps.dashboard.forms import LoginForm, TaskForm
+from apps.dashboard.forms import LoginForm, RegistrationForm, TaskForm
 from apps.tasks.models import Task
+
+
+User = get_user_model()
 
 
 def login_view(request):
@@ -172,4 +176,34 @@ def delete_task(request, pk):
         request,
         "dashboard/delete_task.html",
         {"task": task},
+    )
+
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+    
+    if request.method=="POST":
+        form = RegistrationForm(request.POST)
+        
+        if form.is_valid():
+            user = User.objects.create_user(
+                email = form.cleaned_data["email"],
+                password = form.cleaned_data["password"],  
+            )
+            
+            login(request, user)
+            
+            messages.success(
+                request,
+                "Your account has been created.",
+            )
+            
+            return redirect("dashboard")
+    else:
+        form = RegistrationForm()
+        
+    return render(
+        request,
+        "dashboard/register.html",
+        {"form": form}
     )

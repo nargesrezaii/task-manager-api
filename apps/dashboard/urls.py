@@ -8,6 +8,7 @@ from apps.dashboard.views import (
     edit_task,
     delete_task,
     task_detail,
+    register_view,
 )
 
 
@@ -19,4 +20,5 @@ urlpatterns = [
     path('tasks/<int:pk>/', task_detail, name="task-detail"),
     path('tasks/<int:pk>/edit/', edit_task, name="edit-task"),
     path('tasks/<int:pk>/delete/', delete_task, name="delete-task"),
+    path('register/', register_view, name="register"),
 ]
