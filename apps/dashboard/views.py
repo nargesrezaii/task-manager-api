@@ -280,4 +280,56 @@ def change_password(request):
         request,
         "dashboard/change_password.html",
         {"form": form},
+     )
+
+
+@login_required
+def complete_task(request, pk):
+    task = get_object_or_404(
+        Task,
+        pk=pk,
+        owner = request.user,
     )
+    
+    if request.method=="POST":
+        task.status = Task.Status.COMPLETED,
+        task.save(update_fields=["status", "updated_at"])
+        
+        messages.success(
+            request,
+            "Task marked as completed.",    
+        )
+        
+        return redirect(
+            request,
+            "task-detail",
+            pk=task.pk,           
+        )
+    
+    return redirect(
+        request,
+        "task-detail",
+        pk=task.pk,           
+    )
+
+
+@login_required
+def task_list(request):
+    tasks = Task.objects.filter(
+        owner = request.user   
+    ).order_by("-updated_at")
+    
+    return render(
+        request,
+        "dashboard/tasks.html",
+        {"tasks": tasks},
+    )
+
+
+
+
+
+
+
+
+

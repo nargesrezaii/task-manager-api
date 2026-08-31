@@ -11,6 +11,8 @@ from apps.dashboard.views import (
     register_view,
     profile,
     change_password,
+    complete_task,
+    task_list,
 )
 
 
@@ -24,5 +26,7 @@ urlpatterns = [
     path('tasks/<int:pk>/delete/', delete_task, name="delete-task"),
     path('register/', register_view, name="register"),
     path('profile/', profile, name="profile"),
-     path('change-password/', change_password, name="change-password"),
+    path('change-password/', change_password, name="change-password"),
+    path('tasks/<int:pk>/complete/', complete_task, name='complete-task'),
+    path('tasks/', task_list, name="task-list"),
 ]

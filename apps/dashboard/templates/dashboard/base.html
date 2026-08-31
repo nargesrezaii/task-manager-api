@@ -28,7 +28,11 @@
             
                 <a href="{% url 'profile' %}">
                     Profile
-                </a>            
+                </a>          
+            
+                <a href="{% url 'task-list' %}">
+                    My Tasks
+                </a>
 
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}

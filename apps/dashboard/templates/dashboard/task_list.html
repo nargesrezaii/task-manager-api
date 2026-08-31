@@ -1,0 +1,57 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    My Tasks | Task Manager
+{% endblock %}
+
+{% block content %}
+
+    <h1>My Tasks</h1>
+
+    <a href="{% url 'create-task' %}">
+        Create Task
+    </a>
+
+        {% if tasks %}
+
+            {% for task in tasks %}
+
+                <article>
+                    <h2>
+                        <a href="{% url 'task-detail' task.pk %}">
+                            {{ task.title }}
+                        </a>
+                    </h2>
+
+                    <p>
+                        Status:
+                        {{ task.get_status_display }}
+                    </p>
+
+                    <p>
+                        Priority:
+                        {{ task.get_priority_display }}
+                    </p>
+
+                    {% if task.due_date %}
+                    <p>
+                        Due: {{ task.due_date }}
+                    </p>
+                    {% endif %}
+                </article>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+                You don't have any tasks yet.
+            </p>
+
+            <a href="{% url 'create-task' %}">
+                Create your first task
+            </a>
+
+        {% endif %}
+
+{% endblock %}
