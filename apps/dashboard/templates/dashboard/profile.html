@@ -10,6 +10,11 @@
 
         {% if user.avatar %}
             <img src="{{ user.avatar.url }}" alt="Profile picture">
+        
+        {% else %}
+            <p>
+                No profile picture uploaded.
+            </p>
         {% endif %}
 
         <form method="post" enctype="multipart/form-data">
