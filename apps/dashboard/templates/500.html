@@ -1,0 +1,20 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Server Error | Task Manager
+{% endblock %}
+
+{% block content %}
+
+    <h1>Something Went Wrong</h1>
+
+    <p>
+        We're sorry, but something went wrong on our side.
+        Please try again later.
+    </p>
+
+    <a href="{% url 'dashboard' %}">
+        Back to Dashboard
+    </a>
+
+{% endblock %}
