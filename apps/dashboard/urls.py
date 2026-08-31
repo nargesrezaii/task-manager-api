@@ -10,6 +10,7 @@ from apps.dashboard.views import (
     task_detail,
     register_view,
     profile,
+    change_password,
 )
 
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path('tasks/<int:pk>/delete/', delete_task, name="delete-task"),
     path('register/', register_view, name="register"),
     path('profile/', profile, name="profile"),
+     path('change-password/', change_password, name="change-password"),
 ]

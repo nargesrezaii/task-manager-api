@@ -3,8 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth import update_session_auth_hash
 
 from apps.dashboard.forms import (
+    ChangePasswordForm,
     LoginForm,
     ProfileForm,
     RegistrationForm,
@@ -242,5 +244,40 @@ def profile(request):
     return render(
         request,
         "dashboard/profile.html",
+        {"form": form},
+    )
+
+
+@login_required
+def change_password(request):
+    if request.method=="POST":
+        form = ChangePasswordForm(
+            request.POST,
+            user=request.user,
+        )
+        
+        if form.is_valid():
+            request.user.set_password(
+                form.cleaned_data["new_password"]    
+            )
+            request.user.save()
+            
+            update_session_auth_hash(
+                request,
+                request.user,
+            )
+            
+            messages.success(
+                request,
+                "Your password has been changed successfully.",
+            )
+            
+            return redirect("profile")
+    else:
+        form = ChangePasswordForm(user=request.user)
+
+    return render(
+        request,
+        "dashboard/change_password.html",
         {"form": form},
     )
