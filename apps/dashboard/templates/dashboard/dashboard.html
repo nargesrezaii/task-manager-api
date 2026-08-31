@@ -20,7 +20,9 @@
 
     <section>
         <h2>Recent Tasks</h2>
+
         {% if tasks %}
+
             {% for task in tasks %}
                 <article>
                     <h3>
@@ -44,8 +46,14 @@
             {% endfor %}
 
         {% else %}
-        <p>You don't have any tasks yet.</p>
+
+            <p>You don't have any tasks yet.</p>
+
         {% endif %}
+
     </section>
+
+    <a href="{% url 'create-task' %}">Create Task</a>
+    <a href="{% url 'task-list' %}">View All Tasks</a>
 
 {% endblock %}
