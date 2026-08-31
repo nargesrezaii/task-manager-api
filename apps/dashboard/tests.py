@@ -28,6 +28,11 @@ class DashboardTests(TestCase):
             owner = self.user,
             title = "My task",
         )
+
+        self.other_task = Task.objects.create(
+            owner = self.other_user,
+            title = "Other task",
+        )
     
 
     def test_login_with_valid_credentials(self):
@@ -156,6 +161,27 @@ class DashboardTests(TestCase):
                 "task-detail",
                 args=[self.task.pk],
             )
+        )
+        
+        self.assertEqual(
+            response.status_code,
+            404,
+        )
+        
+    def test_user_cannot_edit_another_users_task(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse(
+                "edit-task",
+                args=[self.other_task.pk],
+            ),
+            {
+                "title": "Changed",
+                "description": "Changed",
+                "status": Task.Status.TODO,
+                "priority": Task.Priority.LOW,
+            },
         )
         
         self.assertEqual(
