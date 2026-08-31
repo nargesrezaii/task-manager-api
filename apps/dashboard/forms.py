@@ -71,3 +71,13 @@ class RegistrationForm(forms.Form):
             )  
         
         return cleaned_data
+    
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "last_name",
+            "avatar",
+        )

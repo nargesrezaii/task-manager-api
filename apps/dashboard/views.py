@@ -4,7 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from apps.dashboard.forms import LoginForm, RegistrationForm, TaskForm
+from apps.dashboard.forms import (
+    LoginForm,
+    ProfileForm,
+    RegistrationForm,
+    TaskForm,
+)
+
 from apps.tasks.models import Task
 
 
@@ -48,10 +54,13 @@ def login_view(request):
     return render(request, "dashboard/login.html")
 
 
+@login_required
 def logout_view(request):
-    logout(request)
-
-    return redirect("login")
+    if request.method=="POST":
+        logout(request)
+        return redirect("login")
+    
+    return redirect("dashboard")
 
 
 @login_required
@@ -178,6 +187,7 @@ def delete_task(request, pk):
         {"task": task},
     )
 
+
 def register_view(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
@@ -206,4 +216,31 @@ def register_view(request):
         request,
         "dashboard/register.html",
         {"form": form}
+    )
+
+
+@login_required
+def profile(request):
+    if request.method=="POST":
+        form = ProfileForm(
+            request.POST,
+            request.FILES,
+            instance=request.user,
+        )
+        
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                "Profile updated successfully.",
+            )
+            
+            return redirect("profile")
+    else:
+        form = ProfileForm(instance=request.user)
+        
+    return render(
+        request,
+        "dashboard/profile.html",
+        {"form": form},
     )

@@ -1,0 +1,21 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Profile | Task Manager
+{% endblock %}
+
+{% block content %}
+
+    <h1>My Profile</h1>
+
+        {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Profile picture">
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save Changes</button>
+        </form>
+
+{% endblock %}
