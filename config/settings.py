@@ -1,14 +1,19 @@
+import os
+
+from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
 from telnetlib import AUTHENTICATION
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-xf)+tcnnl47x#kcsl-vq(lg9r3f@il-)8yvoj3(ax&f05ch+nb'
+load_dotenv(BASE_DIR / ".env")
 
-DEBUG = True
+SECRET_KEY = os.environ["SECRET_KEY"]
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get("DEBUG", "FALSE") == "TRUE"
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 
 INSTALLED_APPS = [
