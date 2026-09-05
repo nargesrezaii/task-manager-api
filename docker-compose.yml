@@ -15,7 +15,7 @@ services:
   web:
     build: .
     container_name: task-manager-web
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
