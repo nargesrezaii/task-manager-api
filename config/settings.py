@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
-from telnetlib import AUTHENTICATION
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -147,3 +146,5 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
