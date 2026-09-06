@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
@@ -28,6 +30,9 @@ class LoginForm(forms.Form):
     
 
 class RegistrationForm(forms.Form):
+    username = forms.CharField(
+        max_length=150,    
+    )
     email = forms.EmailField()
     password = forms.CharField(
         widget=forms.PasswordInput    
@@ -72,6 +77,33 @@ class RegistrationForm(forms.Form):
         
         return cleaned_data
     
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        
+        if not re.fullmatch(r"[A-Za-z0-9_]+", username):
+            raise forms.ValidationError(
+                "Username can only contain letters, numbers, and underscores."    
+            )
+
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(
+                "This username is already taken."    
+            )
+
+        prohibited_usernames = {
+            "admin",
+            "administrator",
+            "root",
+            "support",
+        }
+        
+        if username.lower() in prohibited_usernames:
+            raise forms.ValidationError(
+                "This username is not allowed."    
+            )
+        
+        return username
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:
