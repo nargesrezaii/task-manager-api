@@ -6,52 +6,66 @@
 
 {% block content %}
 
-    <h1>My Tasks</h1>
+    <div class="task-list-header">
+        <div>
+            <h1>My Tasks</h1>
+            <p>View and manage your tasks.</p>
+        </div>
 
-    <a href="{% url 'create-task' %}">
-        Create Task
-    </a>
+        <a href="{% url 'create-task' %}" class="primary-button">
+            Create Task
+        </a>
+    </div>
 
-        {% if tasks %}
+    {% if tasks %}
 
-            {% for task in tasks %}
+    <div class="task-list-grid">
 
-                <article>
-                    <h2>
-                        <a href="{% url 'task-detail' task.pk %}">
-                            {{ task.title }}
-                        </a>
-                    </h2>
+        {% for task in tasks %}
 
-                    <p>
-                        Status:
-                        {{ task.get_status_display }}
-                    </p>
+        <article class="task-list-card">
 
-                    <p>
-                        Priority:
-                        {{ task.get_priority_display }}
-                    </p>
+            <h2>
+                <a href="{% url 'task-detail' task.pk %}">
+                    {{ task.title }}
+                </a>
+            </h2>
 
-                    {% if task.due_date %}
-                    <p>
-                        Due: {{ task.due_date }}
-                    </p>
-                    {% endif %}
-                </article>
+            <div class="task-list-meta">
+                <p>
+                    <strong>Status:</strong>
+                    {{ task.get_status_display }}
+                </p>
 
-            {% endfor %}
+                <p>
+                    <strong>Priority:</strong>
+                    {{ task.get_priority_display }}
+                </p>
 
-        {% else %}
+                {% if task.due_date %}
+                <p>
+                    <strong>Due:</strong>
+                    {{ task.due_date }}
+                </p>
+                {% endif %}
+            </div>
 
-            <p>
-                You don't have any tasks yet.
-            </p>
+        </article>
 
-            <a href="{% url 'create-task' %}">
-                Create your first task
-            </a>
+        {% endfor %}
 
-        {% endif %}
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+        <p>You don't have any tasks yet.</p>
+
+        <a href="{% url 'create-task' %}" class="primary-button">
+            Create your first task
+        </a>
+    </div>
+
+    {% endif %}
 
 {% endblock %}

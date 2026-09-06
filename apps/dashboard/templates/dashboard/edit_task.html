@@ -6,16 +6,32 @@
 
 {% block content %}
 
-    <h1>Edit Task</h1>
+    <div class="task-form-container">
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
+        <div class="task-form-card">
 
-    <a href="{% url 'task-detail' task.pk %}">
-        Cancel
-    </a>
+            <div class="task-form-header">
+                <h1>Edit Task</h1>
+                <p>Update the details of your task.</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <div class="task-form-actions">
+                    <button type="submit" class="primary-button">
+                        Save Changes
+                    </button>
+
+                    <a href="{% url 'task-detail' task.pk %}" class="secondary-button">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
 
 {% endblock %}

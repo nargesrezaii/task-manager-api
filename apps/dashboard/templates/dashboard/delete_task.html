@@ -6,18 +6,35 @@
 
 {% block content %}
 
-    <h1>Delete Task</h1>
-    <p>
-        Are you sure you want to delete
-        <strong>{{ task.title }}</strong>?
-    </p>
+    <div class="delete-task-container">
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Yes, Delete</button>
-        <a href="{% url 'task-detail' task.pk %}">
-            Cancel
-        </a>
-    </form>
+        <div class="delete-task-card">
+
+            <h1>Delete Task</h1>
+
+            <p>
+                Are you sure you want to delete
+                <strong>{{ task.title }}</strong>?
+            </p>
+
+            <p class="delete-task-warning">
+                This action cannot be undone.
+            </p>
+
+            <form method="post" class="delete-task-actions">
+                {% csrf_token %}
+
+                <button type="submit" class="danger-button">
+                    Yes, Delete
+                </button>
+
+                <a href="{% url 'task-detail' task.pk %}" class="secondary-button">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+
+    </div>
 
 {% endblock %}

@@ -5,42 +5,81 @@
 {% endblock %}
 
 {% block content %}
-    
-    <h1>{{ task.title }}</h1>
 
-    {% if task.description %}
-        <p>{{ task.description }}</p>
-    {% endif %}
+    <div class="task-detail">
 
-    <p>Status: {{ task.get_status_display }}</p>
-    <p>Priority: {{ task.get_priority_display }}</p>
+        <div class="task-detail-header">
+            <h1>{{ task.title }}</h1>
+            <a href="{% url 'task-list' %}" class="secondary-button">
+                Back to My Tasks
+            </a>
+        </div>
 
-    {% if task.due_date %}
-        <p>Due: {{ task.due_date }}</p>
-    {% endif %}
+        <div class="task-detail-card">
 
-    <p>Created: {{ task.created_at }}</p>
-    <p>Last updated: {{ task.updated_at }}</p>
+            {% if task.description %}
+            <div class="task-detail-section">
+                <h2>Description</h2>
+                <p>{{ task.description }}</p>
+            </div>
+            {% endif %}
 
-    <a href="{% url 'edit-task' task.pk %}">
-        Edit task
-    </a>
+            <div class="task-detail-section">
+                <h2>Task Information</h2>
 
-    <a href="{% url 'delete-task' task.pk %}">
-        Delete task
-    </a>
+                <div class="task-detail-info">
+                    <p>
+                        <strong>Status:</strong>
+                        {{ task.get_status_display }}
+                    </p>
 
-    {% if task.status != "COMPLETED" %}
-        <form method="post" action="{% url 'complete-task' task.pk %}">
-            {% csrf_token %}
-            <button type="submit">
-                Mark as completed
-            </button>
-        </form>
-    {% endif %}
+                    <p>
+                        <strong>Priority:</strong>
+                        {{ task.get_priority_display }}
+                    </p>
 
-    <a href="{% url 'dashboard' %}">
-        Back to dashboard
-    </a>
+                    {% if task.due_date %}
+                    <p>
+                        <strong>Due:</strong>
+                        {{ task.due_date }}
+                    </p>
+                    {% endif %}
+
+                    <p>
+                        <strong>Created:</strong>
+                        {{ task.created_at }}
+                    </p>
+
+                    <p>
+                        <strong>Last updated:</strong>
+                        {{ task.updated_at }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="task-detail-actions">
+
+                <a href="{% url 'edit-task' task.pk %}" class="primary-button">
+                    Edit Task
+                </a>
+
+                <a href="{% url 'delete-task' task.pk %}" class="danger-button">
+                    Delete Task
+                </a>
+
+                {% if task.status != "COMPLETED" %}
+                <form method="post" action="{% url 'complete-task' task.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="secondary-button">
+                        Mark as Completed
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock %}

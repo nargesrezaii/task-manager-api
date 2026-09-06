@@ -74,13 +74,13 @@ def dashboard(request):
     context = {
         "tasks": tasks[:5],
         "total_tasks": tasks.count(),
-        "todo": tasks.filter(
+        "todo_tasks": tasks.filter(
             status=Task.Status.TODO
         ).count(),
-        "in_progress": tasks.filter(
+        "in_progress_tasks": tasks.filter(
             status = Task.Status.IN_PROGRESS    
         ).count(),
-        "completed": tasks.filter(
+        "completed_tasks": tasks.filter(
             status=Task.Status.COMPLETED,
         ).count()
     }

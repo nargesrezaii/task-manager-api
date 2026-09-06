@@ -5,12 +5,34 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Create Task</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create Task</button>
-    </form>
+    <div class="task-form-container">
+
+        <div class="task-form-card">
+
+            <div class="task-form-header">
+                <h1>Create Task</h1>
+                <p>Add a new task to your task list.</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="task-form-actions">
+                    <button type="submit" class="primary-button">
+                        Create Task
+                    </button>
+
+                    <a href="{% url 'task-list' %}" class="secondary-button">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
 
 {% endblock %}

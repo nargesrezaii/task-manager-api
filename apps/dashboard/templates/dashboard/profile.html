@@ -6,23 +6,41 @@
 
 {% block content %}
 
-    <h1>My Profile</h1>
+    <div class="profile-container">
 
-        {% if user.avatar %}
-            <img src="{{ user.avatar.url }}" alt="Profile picture">
-        
-        {% else %}
-            <p>
-                No profile picture uploaded.
-            </p>
-        {% endif %}
+        <div class="profile-card">
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Save Changes</button>
-        </form>
+            <div class="profile-header">
+                <h1>My Profile</h1>
+                <p>Manage your profile information.</p>
+            </div>
 
-        <a href="{% url 'change-password' %}">Change Password</a>        
+            <div class="profile-avatar">
+                {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" alt="Profile picture">
+                {% else %}
+                <div class="profile-avatar-placeholder">
+                    No profile picture
+                </div>
+                {% endif %}
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="primary-button">
+                    Save Changes
+                </button>
+            </form>
+
+            <div class="profile-footer">
+                <a href="{% url 'change-password' %}" class="secondary-button">
+                    Change Password
+                </a>
+            </div>
+
+        </div>
+
+    </div>
 
 {% endblock %}
