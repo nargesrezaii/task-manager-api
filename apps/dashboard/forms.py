@@ -20,6 +20,13 @@ class TaskForm(forms.ModelForm):
             "priority",
             "due_date",
         )
+        widgets = {
+            "due_date": forms.DateTimeInput(
+                attrs={
+                    "type": "datetime-local"   
+                },
+            ),    
+        }
 
 
 class LoginForm(forms.Form):
