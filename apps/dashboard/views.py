@@ -322,7 +322,7 @@ def task_list(request):
     
     return render(
         request,
-        "dashboard/tasks.html",
+        "dashboard/task_list.html",
         {"tasks": tasks},
     )
 
