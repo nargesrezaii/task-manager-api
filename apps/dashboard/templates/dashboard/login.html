@@ -5,12 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Login</h1>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Login</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

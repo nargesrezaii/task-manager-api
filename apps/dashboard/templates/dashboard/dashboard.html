@@ -5,26 +5,60 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
-    <p>
-        Welcome, {{ request.user.email }}
-    </p>
 
-    <section>
+    <div class="dashboard-header">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Welcome, {{ request.user.email }}</p>
+        </div>
+    </div>
+
+
+    <section class="dashboard-section">
         <h2>Overview</h2>
-        <p>Total tasks: {{ total_tasks }}</p>
-        <p>To Do: {{ todo_tasks }}</p>
-        <p>In Progress: {{ in_progress_tasks }}</p>
-        <p>Completed: {{ completed_tasks }}</p>
+
+        <div class="overview-grid">
+
+            <div class="overview-card">
+                <h3>Total Tasks</h3>
+                <p>{{ total_tasks }}</p>
+            </div>
+
+            <div class="overview-card">
+                <h3>To Do</h3>
+                <p>{{ todo_tasks }}</p>
+            </div>
+
+            <div class="overview-card">
+                <h3>In Progress</h3>
+                <p>{{ in_progress_tasks }}</p>
+            </div>
+
+            <div class="overview-card">
+                <h3>Completed</h3>
+                <p>{{ completed_tasks }}</p>
+            </div>
+
+        </div>
     </section>
 
-    <section>
-        <h2>Recent Tasks</h2>
+
+    <section class="dashboard-section">
+        <div class="section-header">
+            <h2>Recent Tasks</h2>
+            <a href="{% url 'task-list' %}" class="secondary-button">
+                View All Tasks
+            </a>
+        </div>
 
         {% if tasks %}
 
+        <div class="task-grid">
+
             {% for task in tasks %}
-                <article>
+
+                <article class="task-card">
+
                     <h3>
                         <a href="{% url 'task-detail' task.pk %}">
                             {{ task.title }}
@@ -32,28 +66,46 @@
                     </h3>
 
                     <p>
-                        Status:
+                        <strong>Status:</strong>
                         {{ task.get_status_display }}
                     </p>
+
                     <p>
-                        Priority:
+                        <strong>Priority:</strong>
                         {{ task.get_priority_display }}
                     </p>
+
                     {% if task.due_date %}
-                    <p>Due: {{ task.due_date }}</p>
+                    <p>
+                        <strong>Due:</strong>
+                        {{ task.due_date }}
+                    </p>
                     {% endif %}
+
                 </article>
+
             {% endfor %}
+
+        </div>
 
         {% else %}
 
+        <div class="empty-state">
             <p>You don't have any tasks yet.</p>
+        </div>
 
         {% endif %}
-
     </section>
 
-    <a href="{% url 'create-task' %}">Create Task</a>
-    <a href="{% url 'task-list' %}">View All Tasks</a>
+
+    <div class="dashboard-actions">
+        <a href="{% url 'create-task' %}" class="primary-button">
+            Create Task
+        </a>
+
+        <a href="{% url 'task-list' %}" class="secondary-button">
+            View All Tasks
+        </a>
+    </div>
 
 {% endblock %}

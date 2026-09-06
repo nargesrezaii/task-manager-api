@@ -5,19 +5,21 @@
 {% endblock %}
 
 {% block content %}
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Create Account</h1>
 
-    <h1>Create Account</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+                <button type="submit">Register</button>
+            </form>
 
-        <button type="submit">Register</button>
-    </form>
-
-    <p>
-        Already have an account?
-        <a href="{% url 'login' %}">Login</a>
-    </p>
-
+            <p class="auth-footer">
+                Already have an account?
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+        </div>
+    </div>
 {% endblock %}
